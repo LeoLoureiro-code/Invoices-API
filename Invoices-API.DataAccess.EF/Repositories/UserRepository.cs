@@ -73,6 +73,7 @@ namespace Invoices_API.DataAccess.EF.Repositories
                 ExpiresAt = DateTime.UtcNow.AddDays(7),
                 RevokedAt = DateTime.UtcNow.AddMinutes(15),
                 IsActive = true,
+                Role = "user",
                 RefreshToken = ""
             };
 
