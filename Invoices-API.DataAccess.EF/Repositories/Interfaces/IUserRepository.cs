@@ -19,7 +19,7 @@ namespace Invoices_API.DataAccess.EF.Repositories.Interfaces
 
         Task<User> CreateUser(UserDTO user);
 
-        Task<User> UpdateUser(int id, string name, string passwordhashed);
+        Task<User> UpdateUser(int id, string email, string password);
 
         Task DeleteUser(int id);
     }
