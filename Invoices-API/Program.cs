@@ -1,3 +1,6 @@
+using Invoices_API.DataAccess.EF.Context;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -6,6 +9,12 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.AddDbContext<InvoicesDbContext>(options =>
+    options.UseMySql(
+        builder.Configuration.GetConnectionString("InvoicesDb"),
+        ServerVersion.Parse("5.7.23-mysql"))
+);
 
 var app = builder.Build();
 

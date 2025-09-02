@@ -5,6 +5,8 @@ VisualStudioVersion = 17.14.36408.4 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invoices-API", "Invoices-API\Invoices-API.csproj", "{E3E69FC1-B92F-425B-8A11-24A7A85EF2B9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Invoices-API.DataAccess.EF", "Invoices-API.DataAccess.EF\Invoices-API.DataAccess.EF.csproj", "{FD85B910-EBB9-4E27-9528-B9EB1EA44A46}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{E3E69FC1-B92F-425B-8A11-24A7A85EF2B9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E3E69FC1-B92F-425B-8A11-24A7A85EF2B9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E3E69FC1-B92F-425B-8A11-24A7A85EF2B9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FD85B910-EBB9-4E27-9528-B9EB1EA44A46}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FD85B910-EBB9-4E27-9528-B9EB1EA44A46}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FD85B910-EBB9-4E27-9528-B9EB1EA44A46}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FD85B910-EBB9-4E27-9528-B9EB1EA44A46}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
