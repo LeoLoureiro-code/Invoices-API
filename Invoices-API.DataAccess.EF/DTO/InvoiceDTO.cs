@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Invoices_API.DataAccess.EF.DTO
 {
-    public class InvoiceDto
+    public class InvoiceDTO
     {
 
         public uint Id { get; set; }
