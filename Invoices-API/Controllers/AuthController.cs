@@ -7,7 +7,7 @@ using System.Security.Claims;
 
 namespace Invoices_API.Controllers
 {
-    [Route("Invoices/[controller]")]
+    [Route("Invoices/Auth")]
     [ApiController]
     public class AuthController : ControllerBase
     {
