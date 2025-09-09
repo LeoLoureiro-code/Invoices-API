@@ -1,4 +1,5 @@
 ﻿using Invoices_API.DataAccess.EF.Context;
+using Invoices_API.DataAccess.EF.DTO;
 using Invoices_API.DataAccess.EF.Models;
 using Invoices_API.DataAccess.EF.Repositories;
 using Microsoft.AspNetCore.Authorization;
@@ -20,7 +21,7 @@ namespace Invoices_API.Controllers
         }
 
         [Authorize]
-        [HttpGet]
+        [HttpGet("get-invoices-by-user")]
         public async Task <ActionResult <IEnumerable<Invoice>>> GetInvoicesByUserId(int id)
         {
             try
@@ -42,6 +43,33 @@ namespace Invoices_API.Controllers
                     statusCode: StatusCodes.Status500InternalServerError);
             }
             
+        }
+
+        [Authorize]
+        [HttpPost("create-invoice")]
+        public async Task <ActionResult<Invoice>> CreateInvoice([FromBody] InvoiceDTO invoice, int id)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new
+                    {
+                        Message = "Email and password are required."
+                    });
+                }
+
+                var createdInvoice = await _invoiceRepository.CreateInvoice(invoice, id);
+
+                return createdInvoice;
+            }
+            catch (Exception ex)
+            {
+                return Problem(
+                    detail: ex.InnerException?.Message ?? ex.Message,
+                    title: "An error occurred while creating the invoice.",
+                    statusCode: StatusCodes.Status500InternalServerError);
+            }
         }
     }
 }
