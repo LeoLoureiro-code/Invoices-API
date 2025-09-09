@@ -37,6 +37,7 @@ namespace Invoices_API.DataAccess.EF.DTO
         public DateOnly? InvoicePayment { get; set; }
 
         public string? ProjectDescription { get; set; }
+
         public int UserId { get; set; }
 
         public List<ItemListDTO> Items { get; set; } = new();
