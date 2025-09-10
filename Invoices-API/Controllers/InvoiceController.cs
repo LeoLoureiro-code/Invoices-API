@@ -71,5 +71,61 @@ namespace Invoices_API.Controllers
                     statusCode: StatusCodes.Status500InternalServerError);
             }
         }
+
+        [Authorize]
+        [HttpPut("edit-invoice{int}")]
+        public async Task <ActionResult<Invoice>> EditInvoice([FromBody] InvoiceDTO invoice, int userId)
+        {
+            try
+            {
+                if (invoice.Id != 0)
+                {
+                    return BadRequest("User ID in the body does not match URL.");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest(new
+                    {
+                        Message = "all fields are required."
+                    });
+                }
+
+                var existingInvoice = await _invoiceRepository.GetInvoiceById((int)invoice.Id, invoice.UserId);
+
+                if (existingInvoice != null) 
+                {
+                    throw new Exception("Invoice not found.");
+                }
+
+                existingInvoice.Street = invoice.Street;
+                existingInvoice.City = invoice.City;
+                existingInvoice.PostCode = invoice.PostCode;
+                existingInvoice.Country = invoice.Country;
+                existingInvoice.ClientName = invoice.ClientName;
+                existingInvoice.ClientEmail = invoice.ClientEmail;
+                existingInvoice.ClientStreet = invoice.ClientStreet;
+                existingInvoice.ClientCity = invoice.ClientCity;
+                existingInvoice.ClientPostCode = invoice.ClientPostCode;
+                existingInvoice.ClientCountry = invoice.ClientCountry;
+                existingInvoice.InvoiceDate = invoice.InvoiceDate;
+                existingInvoice.InvoicePayment = invoice.InvoicePayment;
+                existingInvoice.ProjectDescription = invoice.ProjectDescription;
+                existingInvoice.ItemLists = (ICollection<ItemList>)invoice.Items;
+
+                //fix this
+                await _invoiceRepository.UpdateInvoice(invoice.Street, invoice.City, invoice.PostCode, invoice.Country, invoice.ClientName, invoice.ClientEmail, invoice.ClientStreet,
+                    invoice.ClientCity, invoice.ClientPostCode, invoice.ClientCountry, invoice.InvoiceDate, invoice.InvoicePayment, invoice.ProjectDescription);
+
+                return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return Problem(
+                    detail: ex.Message,
+                    title: "An error occurred while updating the invoice.",
+                    statusCode: StatusCodes.Status500InternalServerError);
+            }
+        }
     }
 }
