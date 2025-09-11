@@ -83,6 +83,9 @@ namespace Invoices_API.DataAccess.EF.Repositories
             existingInvoice.InvoicePayment = invoiceDTO.InvoicePayment;
             existingInvoice.ProjectDescription = invoiceDTO.ProjectDescription;
 
+            //fix this. Different types
+            existingInvoice.ItemLists = invoiceDTO.Items;
+
             await _context.Invoices.AddAsync(existingInvoice);
             await _context.SaveChangesAsync();
             return existingInvoice;
