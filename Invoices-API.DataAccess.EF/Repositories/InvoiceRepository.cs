@@ -31,7 +31,6 @@ namespace Invoices_API.DataAccess.EF.Repositories
             return await _context.Invoices.FirstOrDefaultAsync(x => x.Id == invoiceId && x.UserId == userId);
         }
 
-        //Add a way to put item list the moment the invoice is created
         public async Task<Invoice> CreateInvoice(InvoiceDTO invoiceDTO, int userId)
         {
 
@@ -59,16 +58,18 @@ namespace Invoices_API.DataAccess.EF.Repositories
             return invoice;
         }
 
-        //Add a way to put item list the moment the invoice is edited
         public async Task<Invoice> UpdateInvoice(InvoiceDTO invoiceDTO, int userId)
         {
-            var existingInvoice = await _context.Invoices.FirstOrDefaultAsync(x => x.UserId == userId && x.UserId == userId);
+            var existingInvoice = await _context.Invoices
+                .Include(i => i.ItemLists)
+                .FirstOrDefaultAsync(x => x.UserId == userId && x.Id == invoiceDTO.Id);
 
-            if(existingInvoice == null)
+            if (existingInvoice == null)
             {
                 throw new Exception("Invoice not found");
             }
 
+            
             existingInvoice.Street = invoiceDTO.Street;
             existingInvoice.City = invoiceDTO.City;
             existingInvoice.PostCode = invoiceDTO.PostCode;
@@ -83,15 +84,22 @@ namespace Invoices_API.DataAccess.EF.Repositories
             existingInvoice.InvoicePayment = invoiceDTO.InvoicePayment;
             existingInvoice.ProjectDescription = invoiceDTO.ProjectDescription;
 
-            //fix this. Different types
-            existingInvoice.ItemLists = invoiceDTO.Items;
+            
+            existingInvoice.ItemLists = invoiceDTO.Items.Select(dto => new ItemList
+            {
+                Id = dto.Id, 
+                Name = dto.Name,
+                Quantity = dto.Quantity,
+                Price = dto.Price,
+                InvoiceId = existingInvoice.Id 
+            }).ToList();
 
-            await _context.Invoices.AddAsync(existingInvoice);
+            _context.Invoices.Update(existingInvoice);
             await _context.SaveChangesAsync();
+
             return existingInvoice;
-
-
         }
+
 
         public async Task DeleteInvoice(int id)
         {
